@@ -1,0 +1,12 @@
+.login-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .img-wrapper {
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+  }
+}

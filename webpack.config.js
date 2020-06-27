@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const config = {
-  entry: ["react-hot-loader/patch", "./src/index.jsx"],
+  entry: ["@babel/polyfill", "react-hot-loader/patch", "./src/index.jsx"],
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.[hash].js",

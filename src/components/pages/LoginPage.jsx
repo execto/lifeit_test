@@ -3,6 +3,8 @@ import { authService } from "../../App";
 
 import "./loginPageStyles.scss";
 import logo from "../../assets/logo.png";
+import { Redirect } from "react-router-dom";
+import AsyncButton from "../AsyncButton/AsyncButton";
 
 const validateBeforeSend = (loginFormData) => {
   let message = "";
@@ -18,44 +20,58 @@ const validateBeforeSend = (loginFormData) => {
 };
 
 const LoginPage = () => {
-  const [loginFormData, setLoginFormData] = React.useState({});
-  const [validationError, setValidationError] = React.useState();
+  const [loginFormData, setLoginFormData] = React.useState({
+    email: "",
+    password: "",
+    rememberMe: false,
+  });
+  const [loginError, setLoginError] = React.useState("");
+  const [isLoggedIn, setIsLoggedIn] = React.useState(
+    authService.isAuthenticated
+  );
 
   const handleInputChange = React.useCallback((event) => {
-    setValidationError(null);
+    setLoginError(null);
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const newValue = {
       [target.name]: value,
     };
     setLoginFormData((prevData) => ({ ...prevData, ...newValue }));
-  });
+  }, []);
 
-  const handleSubmit = React.useCallback((event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-
     const validationError = validateBeforeSend(loginFormData);
     if (validationError) {
-      setValidationError(validationError);
+      setLoginError(validationError);
       return;
     }
 
-    authService.login("eve.holt@reqres.in", "ciatyslicka").then(console.log);
-  });
+    const promise = authService.login(loginFormData);
+    promise
+      .then(() => setIsLoggedIn(true))
+      .catch((err) => setLoginError(err.toString()));
+
+    return () => promise;
+  };
+
+  if (isLoggedIn) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <LoginPageView
       handleInputChange={handleInputChange}
       handleSubmit={handleSubmit}
       data={loginFormData}
-      validationError={validationError}
+      loginError={loginError}
     />
   );
 };
 
 const LoginPageView = (props) => {
-  const { handleInputChange, handleSubmit, data, validationError } = props;
-
+  const { handleInputChange, handleSubmit, data, loginError } = props;
   return (
     <div className="container login-page">
       <div className="row align-items-center justify-content-center">
@@ -101,19 +117,11 @@ const LoginPageView = (props) => {
                   onChange={handleInputChange}
                 />
                 <label className="form-check-label" htmlFor="remember-me">
-                  Запомнить
+                  Запомнить меня
                 </label>
               </div>
-              {validationError && (
-                <p className="text-danger">{validationError}</p>
-              )}
-              <button
-                type="submit"
-                className="btn btn-primary btn-block"
-                onClick={handleSubmit}
-              >
-                Войти
-              </button>
+              {loginError && <p className="text-danger">{loginError}</p>}
+              <AsyncButton title="Войти" action={handleSubmit} />
             </form>
           </div>
         </div>

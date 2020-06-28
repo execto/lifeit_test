@@ -34,5 +34,6 @@ export class AuthService {
   logout() {
     localStorage.removeItem(userTokenKeyName);
     sessionStorage.removeItem(userTokenKeyName);
+    this.isAuthenticated = false;
   }
 }

@@ -4,10 +4,11 @@ import LoginPage from "./components/pages/LoginPage";
 import { ApiClient } from "./services/ApiClient";
 import { AuthService } from "./services/AuthService";
 import HomePage from "./components/pages/HomePage";
+import { UsersService } from "./services/UsersService";
 
 export const apiClient = new ApiClient();
 export const authService = new AuthService(apiClient);
-console.log("APP");
+export const usersService = new UsersService(apiClient);
 
 const App = () => {
   return (

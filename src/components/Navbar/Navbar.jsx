@@ -12,7 +12,7 @@ const Navbar = React.memo(({ children }) => {
   }, []);
 
   return (
-    <div className="navbar navbar-expand-sm navbar-light bg-light">
+    <div className="navbar navbar-expand-sm navbar-light bg-light fixed-top">
       <Link to="/" className="navbar-brand">
         <span className="first">Life</span>
         <span className="two">IT</span>

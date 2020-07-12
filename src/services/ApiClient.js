@@ -9,9 +9,17 @@ export class ApiClient {
     return res;
   }
 
-  post(url, data = {}) {
+  request(url, options) {
     const requestUrl = `${this.apiUrl}${url}?delay=1`;
+
+    return fetch(requestUrl, options)
+      .then(this.handleApiError)
+      .then((res) => res.json());
+  }
+
+  post(url, data = {}, requestOptions = {}) {
     const options = {
+      ...requestOptions,
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -19,8 +27,15 @@ export class ApiClient {
       body: JSON.stringify(data),
     };
 
-    return fetch(requestUrl, options)
-      .then(this.handleApiError)
-      .then((res) => res.json());
+    return this.request(url, options);
+  }
+
+  get(url, requestOptions = {}) {
+    const options = {
+      ...requestOptions,
+      method: "GET",
+    };
+
+    return this.request(url, options);
   }
 }

@@ -1,0 +1,22 @@
+.user-card {
+  .avatar-wrapper {
+    padding-top: 1rem;
+    text-align: center;
+
+    .user-avatar {
+      width: 128px;
+      height: 128px;
+    }
+  }
+}
+
+@media (max-width: 200px) {
+  .user-card {
+    .avatar-wrapper {
+      .user-avatar {
+        width: 75%;
+        height: auto;
+      }
+    }
+  }
+}

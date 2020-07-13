@@ -11,7 +11,7 @@ const HomePage = () => {
   const [listUsers, setListUsers] = React.useState();
 
   React.useEffect(() => {
-    usersService.loadUsers("/users").then((res) => {
+    usersService.loadUsers().then((res) => {
       const curPage = res.page;
       const nextPage = res.total_pages > curPage ? curPage + 1 : curPage;
       const users = res.data;
@@ -36,6 +36,7 @@ const HomePage = () => {
               return (
                 <div key={user.id} className="col-sm-6 mb-3">
                   <UserCard
+                    id={user.id}
                     firstName={user.first_name}
                     lastName={user.last_name}
                     email={user.email}

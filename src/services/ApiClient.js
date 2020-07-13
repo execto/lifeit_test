@@ -14,7 +14,11 @@ export class ApiClient {
 
     return fetch(requestUrl, options)
       .then(this.handleApiError)
-      .then((res) => res.json());
+      .then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        }
+      });
   }
 
   post(url, data = {}, requestOptions = {}) {
@@ -34,6 +38,15 @@ export class ApiClient {
     const options = {
       ...requestOptions,
       method: "GET",
+    };
+
+    return this.request(url, options);
+  }
+
+  delete(url, requestOptions = {}) {
+    const options = {
+      ...requestOptions,
+      method: "DELETE",
     };
 
     return this.request(url, options);

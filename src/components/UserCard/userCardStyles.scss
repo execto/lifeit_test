@@ -8,6 +8,12 @@
       height: 128px;
     }
   }
+
+  .usercard-btns-wrapper {
+    .btn:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
 }
 
 @media (max-width: 200px) {

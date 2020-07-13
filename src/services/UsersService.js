@@ -3,7 +3,13 @@ export class UsersService {
     this.apiClient = apiClient;
   }
 
-  loadUsers(url) {
-    return this.apiClient.get(url);
+  loadUsers() {
+    return this.apiClient.get("/users");
+  }
+
+  deleteUser(userId) {
+    return this.apiClient
+      .delete(`/users/${userId}`)
+      .then((res) => console.log(res));
   }
 }
